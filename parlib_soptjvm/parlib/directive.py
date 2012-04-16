@@ -1,0 +1,2 @@
+POSIX = False
+TRANSLATED = True
