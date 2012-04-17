@@ -1,0 +1,2 @@
+#!/bin/sh
+java -jar /home/paskma/B/opt/jasmin-2.2/jasmin.jar "$@"
