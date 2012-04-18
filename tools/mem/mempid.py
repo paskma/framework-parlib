@@ -28,17 +28,20 @@ def _VmB(proc_status, VmKeys):
 	result = []
 	for VmKey in VmKeys:
 		# get VmKey line e.g. 'VmRSS:  9999  kB\n ...'
-		i = v.index(VmKey)
-		vx = v[i:].split(None, 3)  # whitespace
-		if len(vx) < 3:
-		    return 0.0  # invalid format?
-		 # convert Vm value to bytes
-		result.append(float(vx[1]) * _scale[vx[2]])
+		try:
+			i = v.index(VmKey)
+			vx = v[i:].split(None, 3)  # whitespace
+			if len(vx) < 3:
+			    return 0.0  # invalid format?
+			 # convert Vm value to bytes
+			result.append(float(vx[1]) * _scale[vx[2]])
+		except ValueError:
+			result.append(0)
 	return result
 
 def main(pid, count, csv):
 	proc_status = '/proc/%s/status' % pid
-	keys = ['VmSize:', 'VmRSS:', 'VmLib:', 'VmStk:', 'VmData:', 'VmExe', 'VmSwap']
+	keys = ['VmSize:', 'VmRSS:', 'VmLib:', 'VmStk:', 'VmData:', 'VmExe:', 'VmSwap:']
 	values = []
 	for i in range(len(keys)):
 		values.append([])
