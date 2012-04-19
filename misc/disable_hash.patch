@@ -1,0 +1,12 @@
+diff --git a/Objects/object.c b/Objects/object.c
+index 7cc0ab7..7400e48 100644
+--- a/Objects/object.c
++++ b/Objects/object.c
+@@ -984,6 +984,7 @@ _Py_HashDouble(double v)
+ long
+ _Py_HashPointer(void *p)
+ {
++	return 1;
+ #if SIZEOF_LONG >= SIZEOF_VOID_P
+ 	return (long)p;
+ #else
