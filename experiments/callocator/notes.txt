@@ -1,0 +1,12 @@
+When ignoring signal 30 (sigpwr) and sleeping then goehm gc hangs.
+
+Once the program hangs, it is not resume even after sleep period is over.
+
+If we do not ignore the signal and looping sleep, it seems to work.
+gcc -o themain -DMT -DGCOL -L../../gc/lib -I../../gc/include  -lpthread -lgc themain.c
+
+Ok, the hanging issue solved by not blocking the SIG_PWR and using usleep in cycle.
+
+Multithreaded version for 100k objects, uclibc(1) versus glibc(2):
+VmSize:16184.0 K    VmRSS:15644.0 K    VmStk:152.0 K    
+VmSize:27732.0 K    VmRSS:15844.0 K    VmStk:136.0 K 
