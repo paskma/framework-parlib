@@ -2,3 +2,6 @@
 *.o
 *.class
 unpacked
+themain-c
+themain-jvm
+themein-jvm.jar
