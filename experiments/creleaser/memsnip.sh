@@ -1,0 +1,1 @@
+../releaser/memsnip.sh

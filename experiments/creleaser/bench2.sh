@@ -1,0 +1,1 @@
+../releaser/bench2.sh
