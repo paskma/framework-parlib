@@ -7,12 +7,37 @@ import pypy.Client.__init___74;
 import pypy.ftpclient.ftp_file.FtpFile_82;
 import pypy.ftpclient.filestream.FileStream_73;
 
+import pypy.test.netimpl.testnetwork.TestNetwork_77;
+import pypy.TestNetwork.__init___78;
+import pypy.test.server.Server_75;
+import pypy.Server.__init___76;
+
 public class CClient {
 	private Client_67 impl;
 	
 	public CClient() {
+		init(false);
+	}
+	
+	public CClient(boolean useTestNetwork) {
+		init(useTestNetwork);
+	}
+	
+	private void init(boolean useTestNetwork) {
 		impl = new Client_67();
-		__init___74.invoke(impl, new CNetwork(), new CNetwork());
+		if (useTestNetwork) {
+			Server_75 server = new Server_75();
+			__init___76.invoke(server);
+			TestNetwork_77 commandNet = new TestNetwork_77();
+			__init___78.invoke(commandNet, server, false);
+			TestNetwork_77 dataNet = new TestNetwork_77();
+			__init___78.invoke(dataNet, server, true);
+
+			
+			__init___74.invoke(impl, commandNet, dataNet);
+		} else {
+			__init___74.invoke(impl, new CNetwork(), new CNetwork());
+		}
 	}
 	
 	public boolean connect(String host, int port) {

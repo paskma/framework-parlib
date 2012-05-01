@@ -15,8 +15,34 @@ public class Main {
 	private static void p(Object o) {
 		System.out.println(o);
 	}
-
+	
 	public static void main(String[] args) {
+		if (args.length == 1 && args[0].equals("--test")) {
+			demoTestNetwork();
+		} else {
+			demoWild();
+		}
+	}
+	
+	private static void demoTestNetwork() {
+		p("TestNetwork demo");
+		CClient client = new CClient(true);
+		client.connect("ignored", 21);
+		client.login("anonymous", "osgiftp@kiv.zcu.cz");
+		
+		CFtpFile lst[];
+		lst = client.listFiles();
+
+		for (CFtpFile i : lst) {
+			System.out.println(i);
+		}
+		
+		byte[] contentXX = client.retrieveFile("xx");
+		p("XX:'" +  (new String(contentXX)) + "'");
+		client.logout();
+	}
+
+	private static void demoWild() {
 		String host;
 		host = "ftp.zcu.cz";
 		host = "ftp.gnu.org";
@@ -61,6 +87,7 @@ public class Main {
 		System.out.println("Desperate delete");
 		client.deleteFile("mythical_file.docxxx");
 		
+		client.logout();
 		System.out.println("Done.");
 	}
 }
