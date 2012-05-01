@@ -19,8 +19,10 @@ public class Main {
 	public static void main(String[] args) {
 		if (args.length == 1 && args[0].equals("--test")) {
 			demoTestNetwork();
-		} else {
+		} else if (args.length == 1 && args[0].equals("--wild")) {
 			demoWild();
+		} else {
+			p("No task given, try either --test or --wild");
 		}
 	}
 	
