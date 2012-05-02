@@ -174,7 +174,7 @@ class Server:
 		self.setState(self.S_STATE_LIST_TRANSFER_DONE)
 		result = (
 		  "drwxrwxr-x  283 0        3003        12288 Aug 30 18:45 gnu\r\n"
-		+ "drwxrwxr-x  283 0        3003        12288 Aug 30 18:46 xx\r\n")
+		+ "-rwxrwxr-x  283 0        3003        12288 Aug 30 18:46 xx\r\n")
 		return result
 
 	def getFileData(self):
