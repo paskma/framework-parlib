@@ -34,7 +34,6 @@ def main():
 		- StateException is raised until stream is not closed
 	"""
 	server = Server()
-	#server.setExperimentErrorListing(true);
 	commandNet = TestNetwork(server, False)
 	dataNet = TestNetwork(server, True)
 	host = "foo"

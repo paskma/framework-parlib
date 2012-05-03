@@ -5,7 +5,6 @@ from ftpclient.client import Client
 
 def main():
 	server = Server()
-	#server.setExperimentErrorListing(true);
 	commandNet = TestNetwork(server, False)
 	dataNet = TestNetwork(server, True)
 	host = "foo"

@@ -36,6 +36,7 @@ class Server:
 		self.state = self.S_STATE_READY
 		self.command = None
 		self.experimentErrorListing = False
+		self.experimentErrorDataTransferConfirmation = False
 	
 	def assertState(self, shouldBe):
 		if self.state != shouldBe:
@@ -52,8 +53,11 @@ class Server:
 		pattern = pattern.lower()
 		return command.startswith(pattern)
 	
-	def setExperimantErrorListing(self, value):
+	def setExperimentErrorListing(self, value):
 		self.experimentErrorListing = value
+	
+	def setExperimentErrorDataTransferConfirmation(self, value):
+		self.experimentErrorDataTransferConfirmation = value
 	
 	def connectToCommand(self):
 		self.assertState(self.S_STATE_READY)
@@ -141,7 +145,10 @@ class Server:
 		if self.state == self.S_STATE_FILE_TRANSFER_DONE:
 			self.setState(self.S_STATE_LOGGED)
 			self.order = None
-			return "225 Fake transfer complete"
+			if self.experimentErrorDataTransferConfirmation:
+				return "500 INJECTED ERROR (was: Fake transfer complete)"
+			else:
+				return "225 Fake transfer complete"
 		
 		self.assertState(self.S_STATE_DATA_CONNECTION_ESTABLISHED)
 		self.setState(self.S_STATE_TRANSFERING)

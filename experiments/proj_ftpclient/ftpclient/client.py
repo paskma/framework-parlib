@@ -13,6 +13,10 @@ class Client:
 		self.commandNet = commandNet
 		self.dataNet = dataNet
 		self.machine = StateMachine(commandNet)
+		self.DATA_TRANSFER_CONFIRMATION_BUG = False
+	
+	def setDataTransferConfirmationBug(self, value):
+		self.DATA_TRANSFER_CONFIRMATION_BUG = value
 	
 	def warn(self, message):
 		print "WARN %s" % message
@@ -126,9 +130,12 @@ class Client:
 			suc2 = self.machine.transferSuccessfullyDone()
 			## INJECTION: the fact that transferSuccessfullyDone may fail (because it reads
 			# confirmation message) was discovered by JPF. Visible after two subsequent client.retrieveFile.
-			if not suc2:
-				self.machine.dataConnectionClearAfterError()
-				return None
+			if not self.DATA_TRANSFER_CONFIRMATION_BUG:
+				if not suc2:
+					self.machine.dataConnectionClearAfterError()
+					return None
+			else:
+				self.warn("DATA_TRANSFER_CONFIRMATION_BUG is active")
 			return data
 		else:
 			self.machine.dataConnectionClearAfterError()
