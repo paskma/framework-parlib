@@ -20,8 +20,26 @@ class TestBody(unittest.TestCase):
 		self.assertTrue(res is None)
 	
 	def test_extractSymbolFromFilename(self):
-		res = body.extracSymbolFromClassFilename("unpacked/pypy/ftpclient/client/Client_72.class")
+		res = body.extractSymbolFromClassFilename("unpacked/pypy/ftpclient/client/Client_72.class")
 		self.assertEquals(res, "Client_72")
+	
+	def test_stripNumber(self):
+		res = body.stripNumber("Client_72")
+		self.assertEquals(res, "Client")
+	
+	def test_replaceSymbols(self):
+		s = ["a b b c d"]
+		d = {"b":"B", "c":"C"}
+		res = body.replaceSymbols(s, d)
+		self.assertEquals("a B B C d", res[0])
+		print res[0]
+		
+	def test_command(self):
+		print "Testing command"
+		print body.command(["ls"])
+		print "--1"
+		print body.command(["find", ".", "-name", "*.py"])
+		print "Testing command Done."
 
 if __name__ == "__main__":
 	unittest.main()

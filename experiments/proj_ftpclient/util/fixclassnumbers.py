@@ -13,11 +13,50 @@ def main(argv):
 	fixclassnumbers(jfile, pyclassdir)
 
 def fixclassnumbers(jfile, pyclassdir):
-	lines = File(jfile).readlines()
-	replacable = {}
+	f = open(jfile, "r")
+	lines = f.readlines()
+	f.close()
+	
+		
+	sourceSymbols = gatherSymbolsToReplace(lines)
+	print "Symbols ", ", ".join(sourceSymbols)
+	
+	replaceDict = findReplacements(pyclassdir, sourceSymbols)
+	result = replaceSymbols(lines, replaceDict)
+
+def replaceSymbols(lines, replaceDict):
+	result = []
+	for i in lines:
+		s = i
+		for j in replaceDict:
+			s = s.replace(j, replaceDict[j])
+		result.append(s)
+	
+	return result
+			
+
+def gatherSymbolsToReplace(lines):
+	result = []
 	for line in lines:
 		symbol = extractImportedPyPyClass(line)
-		if symbol: pass
+		if symbol:
+			result.append(symbol)
+	
+	return result
+
+def findReplacements(pyclassdir, symbols):
+	result = {}
+	for i in symbols:
+		classFilename = findClassForSymbol(pyclassdir, stripNumber(i))
+		if not classFilename:
+			print "Warning, no filename for symbol", i
+		else:
+			replacement = extractSymbolFromClassFilename(classFilename)
+			print "Replacement %s->%s added." % (i, replacement)
+			result[i] = replacement
+	
+	return result;
+			
 
 PYPY_IMPORT = re.compile('import\s*pypy\.')
 
@@ -27,17 +66,30 @@ def extractImportedPyPyClass(line):
 		return None
 	
 	lastDot = line.rfind(".")
-	return line[lastDot+1:len(line)-1]
+	lastSemicolon = line.rfind(";")
+	return line[lastDot+1:lastSemicolon]
 	
 def findClassForSymbol(pyclassdir, symbol):
 	"""find unpacked/pypy -name "Client*.class"""
-	return command("find", "pyclassdir", "-name", "'%s*.class'" % symbol)
+	cmd = ["find", pyclassdir, "-name", "%s*.class" % symbol]
+	return command(cmd)
 
-def extracSymbolFromClassFilename(filename):
+def extractSymbolFromClassFilename(filename):
 	if not filename:
 		return None
 	
-	return filename[filename.rfind("/")+1:len(filename)-len(".class")]
+	last = filename.rfind(".class")
+	result = filename[filename.rfind("/")+1:last]
+	
+	print "DDD'%s''%s'" % (filename, result)
+	return result
+
+def stripNumber(symbol):
+	last = symbol.rfind("_");
+	if last == -1:
+		return symbol
+	
+	return symbol[0:last]
 	
 
 def command(tokens):
