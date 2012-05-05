@@ -1,8 +1,10 @@
 package pyftpclient_layer;
 
+import pypy.parlib.net.inetworkreader.INetworkReader_66;
+
 import paskma.ftpclient.net.INetworkReader;
 
-public class CNetworkReader extends pypy.parlib.net.inetworkreader.INetworkReader_66 {
+public class CNetworkReader extends INetworkReader_66 {
 	private final INetworkReader impl;
 	
 	public CNetworkReader(INetworkReader impl) {
