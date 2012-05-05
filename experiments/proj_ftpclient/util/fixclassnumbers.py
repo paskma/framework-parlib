@@ -19,11 +19,12 @@ def fixclassnumbers(jfile, pyclassdir):
 	
 		
 	sourceSymbols = gatherSymbolsToReplace(lines)
-	print "Symbols ", ", ".join(sourceSymbols)
+	symbolsWithoutContext = [i[0] for i in sourceSymbols]
+	print "Symbols (%s): " % len(sourceSymbols), ", ".join(symbolsWithoutContext)
 	
 	replaceDict = findReplacements(pyclassdir, sourceSymbols)
 	result = replaceSymbols(lines, replaceDict)
-	
+
 	f = open(jfile, "w")
 	f.write("".join(result))
 	f.close()
@@ -33,7 +34,7 @@ def replaceSymbols(lines, replaceDict):
 	for i in lines:
 		s = i
 		for j in replaceDict:
-			s = s.replace(j, replaceDict[j])
+			s = s.replace(j[0], replaceDict[j])
 		result.append(s)
 	
 	return result
@@ -42,7 +43,7 @@ def replaceSymbols(lines, replaceDict):
 def gatherSymbolsToReplace(lines):
 	result = []
 	for line in lines:
-		symbol = extractImportedPyPyClass(line)
+		symbol = extractSymbolFromImport(line)
 		if symbol:
 			result.append(symbol)
 	
@@ -50,8 +51,9 @@ def gatherSymbolsToReplace(lines):
 
 def findReplacements(pyclassdir, symbols):
 	result = {}
+	classFiles = loadClassList(pyclassdir).split("\n")
 	for i in symbols:
-		classFilename = findClassForSymbol(pyclassdir, stripNumber(i))
+		classFilename = findClassForSymbol(classFiles, i)
 		if not classFilename:
 			print "Warning, no filename for symbol", i
 		else:
@@ -61,34 +63,42 @@ def findReplacements(pyclassdir, symbols):
 	
 	return result;
 			
+def findClassForSymbol(classFiles, symbol):
+	for i in classFiles:
+		if i.find(symbol[1] + "/" + stripNumber(symbol[0])) != -1:
+			return i
+	
+	return None
 
 PYPY_IMPORT = re.compile('import\s*pypy\.')
 
-def extractImportedPyPyClass(line):
+def extractSymbolFromImport(line):
 	match = PYPY_IMPORT.match(line)
 	if not match:
 		return None
 	
-	lastDot = line.rfind(".")
-	lastSemicolon = line.rfind(";")
-	return line[lastDot+1:lastSemicolon]
+	lastDot = line.rindex(".")
+	lastSemicolon = line.rindex(";")
+	penultimateDot = line.rindex(".", 0, lastDot - 1)
+	context = line[penultimateDot+1:lastDot]
+	return (line[lastDot+1:lastSemicolon], context)
 	
-def findClassForSymbol(pyclassdir, symbol):
-	"""find unpacked/pypy -name "Client_*.class"""
-	cmd = ["find", pyclassdir, "-name", "%s_*.class" % symbol]
+
+def loadClassList(pyclassdir):
+	cmd = ["find", pyclassdir, "-name", "*.class"]
 	return command(cmd)
 
 def extractSymbolFromClassFilename(filename):
 	if not filename:
 		return None
 	
-	last = filename.rfind(".class")
-	result = filename[filename.rfind("/")+1:last]
+	last = filename.rindex(".class")
+	result = filename[filename.rindex("/")+1:last]
 	
 	return result
 
 def stripNumber(symbol):
-	last = symbol.rfind("_");
+	last = symbol.rindex("_");
 	if last == -1:
 		return symbol
 	

@@ -14,9 +14,21 @@ class TestBody(unittest.TestCase):
 		self.assertTrue(match is None)
 	
 	def test_extractImported(self):
-		res = body.extractImportedPyPyClass("import pypy.ftpclient.client.Client_67;")
-		self.assertEquals(res, "Client_67")
-		res = body.extractImportedPyPyClass("import XXX.ftpclient.client.Client_67;")
+		res = body.extractSymbolFromImport("import pypy.ftpclient.client.Client_67;")
+		self.assertEquals(res[0], "Client_67")
+		res = body.extractSymbolFromImport("import XXX.ftpclient.client.Client_67;")
+		self.assertTrue(res is None)
+	
+	def test_findClassForSymbol(self):
+		FILE = "unpacked/pypy/ftpclient/client/Client_72.class"
+		res = body.findClassForSymbol(
+			['foo', FILE, "bar"],
+			("Client_33", "client"))
+		self.assertEquals(res, FILE)
+		
+		res = body.findClassForSymbol(
+			['foo', FILE, "bar"],
+			("Client_33", "zzz"))
 		self.assertTrue(res is None)
 	
 	def test_extractSymbolFromFilename(self):
