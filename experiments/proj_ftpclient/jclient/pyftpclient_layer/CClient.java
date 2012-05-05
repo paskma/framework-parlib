@@ -2,18 +2,18 @@ package pyftpclient_layer;
 
 import java.util.ArrayList;
 
-import pypy.ftpclient.client.Client_67;
-import pypy.Client.__init___74;
-import pypy.ftpclient.ftp_file.FtpFile_82;
-import pypy.ftpclient.filestream.FileStream_73;
+import pypy.ftpclient.client.Client_72;
+import pypy.Client.__init___79;
+import pypy.ftpclient.ftp_file.FtpFile_90;
+import pypy.ftpclient.filestream.FileStream_78;
 
-import pypy.test.netimpl.testnetwork.TestNetwork_77;
-import pypy.TestNetwork.__init___78;
-import pypy.test.server.Server_75;
-import pypy.Server.__init___76;
+import pypy.test.netimpl.testnetwork.TestNetwork_68;
+import pypy.TestNetwork.__init___71;
+import pypy.test.server.Server_66;
+import pypy.Server.__init___67;
 
 public class CClient {
-	private Client_67 impl;
+	private Client_72 impl;
 	
 	public CClient() {
 		init(false);
@@ -24,19 +24,19 @@ public class CClient {
 	}
 	
 	private void init(boolean useTestNetwork) {
-		impl = new Client_67();
+		impl = new Client_72();
 		if (useTestNetwork) {
-			Server_75 server = new Server_75();
-			__init___76.invoke(server);
-			TestNetwork_77 commandNet = new TestNetwork_77();
-			__init___78.invoke(commandNet, server, false);
-			TestNetwork_77 dataNet = new TestNetwork_77();
-			__init___78.invoke(dataNet, server, true);
+			Server_66 server = new Server_66();
+			__init___67.invoke(server);
+			TestNetwork_68 commandNet = new TestNetwork_68();
+			__init___71.invoke(commandNet, server, false);
+			TestNetwork_68 dataNet = new TestNetwork_68();
+			__init___71.invoke(dataNet, server, true);
 
 			
-			__init___74.invoke(impl, commandNet, dataNet);
+			__init___79.invoke(impl, commandNet, dataNet);
 		} else {
-			__init___74.invoke(impl, new CNetwork(), new CNetwork());
+			__init___79.invoke(impl, new CNetwork(), new CNetwork());
 		}
 	}
 	
@@ -60,7 +60,7 @@ public class CClient {
 		CFtpFile[] result = new CFtpFile[raw.size()];
 		int counter = 0;
 		for (Object i : raw) {
-			FtpFile_82 file = (FtpFile_82)i;
+			FtpFile_90 file = (FtpFile_90)i;
 			result[counter++] = new CFtpFile(file);
 		}
 		
@@ -88,7 +88,7 @@ public class CClient {
 	}
 	
 	public CFileStream retrieveFileStream(String filename) {
-		FileStream_73 result = impl.oretrieveFileStream(filename);
+		FileStream_78 result = impl.oretrieveFileStream(filename);
 		if (result == null)
 			return null;
 			

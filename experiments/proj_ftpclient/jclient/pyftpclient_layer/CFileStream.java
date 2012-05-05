@@ -1,12 +1,12 @@
 package pyftpclient_layer;
 
-import pypy.ftpclient.filestream.FileStream_73;
+import pypy.ftpclient.filestream.FileStream_78;
 
 
 public class CFileStream {
-	private final FileStream_73 impl;
+	private final FileStream_78 impl;
 	
-	public CFileStream(FileStream_73 impl) {
+	public CFileStream(FileStream_78 impl) {
 		this.impl = impl;
 	}
 
