@@ -15,17 +15,21 @@ import pypy.Server.__init___67;
 public class CClient {
 	private Client_72 impl;
 	
+	public static final int NET_WILD = 1;
+	public static final int NET_TEST = 2;
+	public static final int NET_TEST_FAIL = 3;
+	
 	public CClient() {
-		init(false);
+		init(NET_WILD);
 	}
 	
-	public CClient(boolean useTestNetwork) {
-		init(useTestNetwork);
+	public CClient(int networkType) {
+		init(networkType);
 	}
 	
-	private void init(boolean useTestNetwork) {
+	private void init(int networkType) {
 		impl = new Client_72();
-		if (useTestNetwork) {
+		if (networkType == NET_TEST) {
 			Server_66 server = new Server_66();
 			__init___67.invoke(server);
 			TestNetwork_68 commandNet = new TestNetwork_68();
@@ -35,7 +39,7 @@ public class CClient {
 
 			
 			__init___79.invoke(impl, commandNet, dataNet);
-		} else {
+		} else if (networkType == NET_WILD) {
 			__init___79.invoke(impl, new CNetwork(), new CNetwork());
 		}
 	}

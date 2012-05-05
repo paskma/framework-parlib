@@ -28,7 +28,7 @@ public class Main {
 	
 	private static void demoTestNetwork() {
 		p("TestNetwork demo");
-		CClient client = new CClient(true);
+		CClient client = new CClient(CClient.NET_TEST);
 		client.connect("ignored", 21);
 		client.login("anonymous", "osgiftp@kiv.zcu.cz");
 		
