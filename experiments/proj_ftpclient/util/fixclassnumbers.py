@@ -23,6 +23,10 @@ def fixclassnumbers(jfile, pyclassdir):
 	
 	replaceDict = findReplacements(pyclassdir, sourceSymbols)
 	result = replaceSymbols(lines, replaceDict)
+	
+	f = open(jfile, "w")
+	f.write("".join(result))
+	f.close()
 
 def replaceSymbols(lines, replaceDict):
 	result = []
@@ -70,8 +74,8 @@ def extractImportedPyPyClass(line):
 	return line[lastDot+1:lastSemicolon]
 	
 def findClassForSymbol(pyclassdir, symbol):
-	"""find unpacked/pypy -name "Client*.class"""
-	cmd = ["find", pyclassdir, "-name", "%s*.class" % symbol]
+	"""find unpacked/pypy -name "Client_*.class"""
+	cmd = ["find", pyclassdir, "-name", "%s_*.class" % symbol]
 	return command(cmd)
 
 def extractSymbolFromClassFilename(filename):
@@ -81,7 +85,6 @@ def extractSymbolFromClassFilename(filename):
 	last = filename.rfind(".class")
 	result = filename[filename.rfind("/")+1:last]
 	
-	print "DDD'%s''%s'" % (filename, result)
 	return result
 
 def stripNumber(symbol):
