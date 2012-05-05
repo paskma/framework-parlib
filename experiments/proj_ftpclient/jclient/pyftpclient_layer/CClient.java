@@ -39,9 +39,24 @@ public class CClient {
 
 			
 			__init___79.invoke(impl, commandNet, dataNet);
+		} else if (networkType == NET_TEST_FAIL) {
+			Server_66 server = new Server_66();
+			__init___67.invoke(server);
+			server.osetExperimentErrorDataTransferConfirmation(true);
+			TestNetwork_68 commandNet = new TestNetwork_68();
+			__init___71.invoke(commandNet, server, false);
+			TestNetwork_68 dataNet = new TestNetwork_68();
+			__init___71.invoke(dataNet, server, true);
+
+			
+			__init___79.invoke(impl, commandNet, dataNet);
 		} else if (networkType == NET_WILD) {
 			__init___79.invoke(impl, new CNetwork(), new CNetwork());
 		}
+	}
+	
+	public void setDataTransferConfirmationBug(boolean value) {
+		impl.osetDataTransferConfirmationBug(value);
 	}
 	
 	public boolean connect(String host, int port) {

@@ -16,7 +16,17 @@ class Application:
 	"""
 	def main(self, argv):
 		try:
-			test_injection.main()
+			test_injection.main(True)
+		except StateException, ex:
+			print ex.message
+			if not TRANSLATED: traceback.print_exc()
+		except ServerStateException, ex:
+			print ex.message
+			if not TRANSLATED: traceback.print_exc()
+		
+		
+		try:
+			test_injection.main(False)
 		except StateException, ex:
 			print ex.message
 			if not TRANSLATED: traceback.print_exc()

@@ -17,13 +17,51 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		if (args.length == 1 && args[0].equals("--test")) {
-			demoTestNetwork();
-		} else if (args.length == 1 && args[0].equals("--wild")) {
-			demoWild();
-		} else {
-			p("No task given, try either --test or --wild");
+		if (args.length != 1) {
+			p("No task given. Try --test, --wild, --fail, --failclient");
+			return;
 		}
+		
+		String arg = args[0];
+		
+		if (arg.equals("--test")) {
+			demoTestNetwork();
+		} else if (arg.equals("--wild")) {
+			demoWild();
+		} else if (arg.equals("--fail")) {
+			demoFail(false);
+		} else if (arg.equals("--failclient")) {
+			demoFail(true);
+		}
+	}
+	
+	private static void demoFail(boolean clientBug) {
+		if (clientBug)
+			p("Server fails, client fails due to a bug");
+		else
+			p("Server fails, client acts ok");
+			
+		CClient client = new CClient(CClient.NET_TEST_FAIL);
+		client.setDataTransferConfirmationBug(clientBug);
+		client.connect("ignored", 21);
+		client.login("anonymous", "osgiftp@kiv.zcu.cz");
+		
+		byte[] f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File is:\n"+ new String(f));
+		else
+			p("C:File transfer failed.");
+
+		p("C:##Second shot...");
+		
+		f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File(2) is:\n"+ new String(f));
+		else
+			p("C:File(2) transfer failed.");
+		
+		client.logout();
+		
 	}
 	
 	private static void demoTestNetwork() {

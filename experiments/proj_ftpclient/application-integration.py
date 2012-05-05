@@ -30,7 +30,12 @@ class Application:
 		
 		print "Injected bug..."
 		try:
-			test_injection.main()
+			test_injection.main(True)
+		except StateException, ex:
+			print "Expected exception, Ok."
+		
+		try:
+			test_injection.main(False)
 		except StateException, ex:
 			print "Expected exception, Ok."
 				

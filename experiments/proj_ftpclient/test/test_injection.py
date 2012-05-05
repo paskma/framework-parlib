@@ -3,14 +3,14 @@ from test.netimpl.testnetwork import TestNetwork
 from parlib.net.inetwork import INetwork
 from ftpclient.client import Client
 
-def main():
+def main(clientBug):
 	server = Server()
 	server.setExperimentErrorDataTransferConfirmation(True)
 	commandNet = TestNetwork(server, False)
 	dataNet = TestNetwork(server, True)
 	host = "foo"
 	client = Client(commandNet, dataNet)
-	client.setDataTransferConfirmationBug(True)
+	client.setDataTransferConfirmationBug(clientBug)
 	suc = client.connect(host, 21)
 	print "C:Test connected:", suc
 	client.login("anonymous", "osgiftp@kiv.zcu.cz")
