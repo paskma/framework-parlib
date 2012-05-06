@@ -35,14 +35,14 @@ public class Main {
 		}
 	}
 	
-	private static void demoFail(boolean clientBug) {
-		if (clientBug)
-			p("Server fails, client fails due to a bug");
+	private static void demoFail(boolean clientDataConfirmationBug) {
+		if (clientDataConfirmationBug)
+			p("C:Server fails, client raises exception due to a bug");
 		else
-			p("Server fails, client acts ok");
+			p("C:Server fails, client handles that gracefully");
 			
 		CClient client = new CClient(CClient.NET_TEST_FAIL);
-		client.setDataTransferConfirmationBug(clientBug);
+		client.setDataTransferConfirmationBug(clientDataConfirmationBug);
 		client.connect("ignored", 21);
 		client.login("anonymous", "osgiftp@kiv.zcu.cz");
 		
