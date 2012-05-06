@@ -18,7 +18,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		if (args.length != 1) {
-			p("No task given. Try --test, --wild, --fail, --failclient");
+			p("No task given. Try one of:");
+			p("  --test, --wild, --fail, --fail-cbug, --rand1000, --rand-cbug1000");
 			return;
 		}
 		
@@ -30,8 +31,18 @@ public class Main {
 			demoWild();
 		} else if (arg.equals("--fail")) {
 			demoFail(false);
-		} else if (arg.equals("--failclient")) {
+		} else if (arg.equals("--fail-cbug")) {
 			demoFail(true);
+		} else if (arg.equals("--rand")) {
+			demoRand(false);
+		} else if (arg.equals("--rand-cbug")) {
+			demoRand(true);
+		} else if (arg.equals("--rand1000")) {
+			demoRand(false, 1000);
+		} else if (arg.equals("--rand-cbug1000")) {
+			demoRand(true, 1000);
+		} else {
+			p("Option not recognized: " + arg);
 		}
 	}
 	
@@ -62,6 +73,62 @@ public class Main {
 		
 		client.logout();
 		
+	}
+	
+	private static void demoRand(boolean clientDataConfirmationBug, int loops) {
+		int i = 0;
+		try {
+			for (i = 0; i < loops; i++) {
+				demoRand(clientDataConfirmationBug);
+				//exception will break the loop
+			}
+			p("All loops performed " + loops);
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			p("Exception found in loop " + i);
+		}
+	}
+	
+	
+	private static void demoRand(boolean clientDataConfirmationBug) {
+		if (clientDataConfirmationBug)
+			p("C:Server with random behavior, client might raises exception due to a bug");
+		else
+			p("C:Server with random behavior, client handles that gracefully");
+			
+		CClient client = new CClient(CClient.NET_RAND);
+		client.setDataTransferConfirmationBug(clientDataConfirmationBug);
+
+		boolean suc = client.connect("ignored", 21);
+		if (!suc) {
+			p("C:Can not connect, end.");
+			return;
+		}
+		suc = client.login("anonymous", "osgiftp@kiv.zcu.cz");
+		if (!suc) {
+			p("C:Can not log in, end.");
+			return;
+		}
+		
+		byte[] f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File is:\n"+ new String(f));
+		else
+			p("C:File transfer failed.");
+
+		p("C:##Second shot...");
+		
+		f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File(2) is:\n"+ new String(f));
+		else
+			p("C:File(2) transfer failed.");
+		
+		suc = client.logout();
+		if (!suc) {
+			p("C:Can not logout.");
+			return;
+		}
 	}
 	
 	private static void demoTestNetwork() {

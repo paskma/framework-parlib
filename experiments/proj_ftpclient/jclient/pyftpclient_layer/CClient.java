@@ -12,12 +12,18 @@ import pypy.TestNetwork.__init___72;
 import pypy.test.server.Server_67;
 import pypy.Server.__init___68;
 
+import pypy.test.server_random.RandServer_88;
+import pypy.RandServer.__init___89;
+import pypy.test.netimpl_random.testnetwork.RandTestNetwork_90;
+import pypy.RandTestNetwork.__init___91;
+
 public class CClient {
 	private Client_73 impl;
 	
 	public static final int NET_WILD = 1;
 	public static final int NET_TEST = 2;
 	public static final int NET_TEST_FAIL = 3;
+	public static final int NET_RAND = 4;
 	
 	public CClient() {
 		init(NET_WILD);
@@ -45,6 +51,15 @@ public class CClient {
 			__init___80.invoke(impl, commandNet, dataNet);
 		} else if (networkType == NET_WILD) {
 			__init___80.invoke(impl, new CNetwork(), new CNetwork());
+		} else if (networkType == NET_RAND) {
+			RandServer_88 server = new RandServer_88();
+			__init___89.invoke(server);
+			RandTestNetwork_90 commandNet = new RandTestNetwork_90();
+			__init___91.invoke(commandNet, server, false);
+			RandTestNetwork_90 dataNet = new RandTestNetwork_90();
+			__init___91.invoke(dataNet, server, true);
+			
+			__init___80.invoke(impl, commandNet, dataNet);
 		}
 	}
 	
