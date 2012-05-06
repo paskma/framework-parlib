@@ -2,18 +2,18 @@ package pyftpclient_layer;
 
 import java.util.ArrayList;
 
-import pypy.ftpclient.client.Client_72;
-import pypy.Client.__init___79;
-import pypy.ftpclient.ftp_file.FtpFile_90;
-import pypy.ftpclient.filestream.FileStream_78;
+import pypy.ftpclient.client.Client_73;
+import pypy.Client.__init___80;
+import pypy.ftpclient.ftp_file.FtpFile_105;
+import pypy.ftpclient.filestream.FileStream_79;
 
-import pypy.test.netimpl.testnetwork.TestNetwork_68;
-import pypy.TestNetwork.__init___71;
-import pypy.test.server.Server_66;
-import pypy.Server.__init___67;
+import pypy.test.netimpl.testnetwork.TestNetwork_69;
+import pypy.TestNetwork.__init___72;
+import pypy.test.server.Server_67;
+import pypy.Server.__init___68;
 
 public class CClient {
-	private Client_72 impl;
+	private Client_73 impl;
 	
 	public static final int NET_WILD = 1;
 	public static final int NET_TEST = 2;
@@ -28,23 +28,23 @@ public class CClient {
 	}
 	
 	private void init(int networkType) {
-		impl = new Client_72();
+		impl = new Client_73();
 		if (networkType == NET_TEST || networkType == NET_TEST_FAIL) {
-			Server_66 server = new Server_66();
-			__init___67.invoke(server);
+			Server_67 server = new Server_67();
+			__init___68.invoke(server);
 			if (networkType == NET_TEST_FAIL){
 				server.osetExperimentErrorDataTransferConfirmation(true);
 			}
 			
-			TestNetwork_68 commandNet = new TestNetwork_68();
-			__init___71.invoke(commandNet, server, false);
-			TestNetwork_68 dataNet = new TestNetwork_68();
-			__init___71.invoke(dataNet, server, true);
+			TestNetwork_69 commandNet = new TestNetwork_69();
+			__init___72.invoke(commandNet, server, false);
+			TestNetwork_69 dataNet = new TestNetwork_69();
+			__init___72.invoke(dataNet, server, true);
 
 			
-			__init___79.invoke(impl, commandNet, dataNet);
+			__init___80.invoke(impl, commandNet, dataNet);
 		} else if (networkType == NET_WILD) {
-			__init___79.invoke(impl, new CNetwork(), new CNetwork());
+			__init___80.invoke(impl, new CNetwork(), new CNetwork());
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class CClient {
 		CFtpFile[] result = new CFtpFile[raw.size()];
 		int counter = 0;
 		for (Object i : raw) {
-			FtpFile_90 file = (FtpFile_90)i;
+			FtpFile_105 file = (FtpFile_105)i;
 			result[counter++] = new CFtpFile(file);
 		}
 		
@@ -100,7 +100,7 @@ public class CClient {
 	}
 	
 	public CFileStream retrieveFileStream(String filename) {
-		FileStream_78 result = impl.oretrieveFileStream(filename);
+		FileStream_79 result = impl.oretrieveFileStream(filename);
 		if (result == null)
 			return null;
 			

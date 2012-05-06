@@ -1,11 +1,11 @@
 package pyftpclient_layer;
 
-import pypy.ftpclient.ftp_file.FtpFile_90;
+import pypy.ftpclient.ftp_file.FtpFile_105;
 
 public class CFtpFile {
-	private final FtpFile_90 impl;
+	private final FtpFile_105 impl;
 
-	public CFtpFile(FtpFile_90 impl) {
+	public CFtpFile(FtpFile_105 impl) {
 		this.impl = impl;
 	}
 
