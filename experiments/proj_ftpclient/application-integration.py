@@ -3,6 +3,7 @@ from parlib.directive import TRANSLATED
 
 from test import test_integration
 from test import test_injection
+from test import test_random
 from ftpclient.statemachine import StateException
 from test.server import StateException as ServerStateException
 
@@ -28,16 +29,22 @@ class Application:
 		print "=Wiring..."
 		print test_integration.wiring()
 		
-		print "Injected bug..."
+		print "=Injected bug..."
 		try:
 			test_injection.main(True)
 		except StateException, ex:
 			print "Expected exception, Ok."
 		
 		try:
-			test_injection.main(False)
+			test_injection.main(False) #suppress aggresive optimization
 		except StateException, ex:
 			print "Expected exception, Ok."
+		
+		print "=Random part..."
+		try:
+			test_random.main()
+		except StateException, ex:
+			print "Exception is randomly possible"
 				
 		print "=Integration Done."
 		return 0

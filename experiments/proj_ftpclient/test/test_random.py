@@ -11,6 +11,8 @@ def main():
 	dataNet = TestNetwork(server, True)
 	host = "foo"
 	client = Client(commandNet, dataNet)
+	# This sets the artificial clien bug:
+	#client.setDataTransferConfirmationBug(True)
 	suc = client.connect(host, 21)
 	print "C:Test connected:", suc
 	if not suc:
