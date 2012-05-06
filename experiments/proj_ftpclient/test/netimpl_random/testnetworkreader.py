@@ -22,7 +22,7 @@ def full_randomization(s):
 	else:
 		return s[0:stop]
 
-class TestNetworkReader(INetworkReader):
+class RandTestNetworkReader(INetworkReader):
 	def __init__(self, server):
 		self.readPos = 0
 		self.readBuffer = None

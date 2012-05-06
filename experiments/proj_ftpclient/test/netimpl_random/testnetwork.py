@@ -1,11 +1,11 @@
 
 from parlib.net.inetwork import INetwork
-from test.netimpl_random.testnetworkreader import TestNetworkReader
+from test.netimpl_random.testnetworkreader import RandTestNetworkReader as TestNetworkReader
 
 from parlib.verify import random
 import test.random_config as config
 
-class TestNetwork(INetwork):
+class RandTestNetwork(INetwork):
 	def __init__(self, server, data):
 		self.server = server
 		self.data = data

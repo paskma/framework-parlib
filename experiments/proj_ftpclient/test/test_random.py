@@ -1,5 +1,5 @@
-from test.server_random import Server
-from test.netimpl_random.testnetwork import TestNetwork
+from test.server_random import RandServer as Server
+from test.netimpl_random.testnetwork import RandTestNetwork as TestNetwork
 from ftpclient.client import Client
 from ftpclient.statemachine import StateException
 

@@ -5,7 +5,7 @@ class StateException(Exception):
 	def __init__(self, message):
 		self.message = message
 
-class Server:
+class RandServer:
 	S_STATE_READY = 1;
 	S_STATE_CONNECTED = 2;
 	S_STATE_WAITING_PASSWORD = 21;
