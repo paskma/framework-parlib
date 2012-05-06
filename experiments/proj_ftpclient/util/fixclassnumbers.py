@@ -65,7 +65,7 @@ def findReplacements(pyclassdir, symbols):
 			
 def findClassForSymbol(classFiles, symbol):
 	for i in classFiles:
-		if i.find(symbol[1] + "/" + stripNumber(symbol[0])) != -1:
+		if i.find("/" + symbol[1] + "/" + stripNumber(symbol[0])) != -1:
 			return i
 	
 	return None
