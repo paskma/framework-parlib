@@ -46,6 +46,16 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Demonstration of client working agains a built-in server that fails
+	 * to confirm a data transfer (however it does not break the protocol).
+	 * 
+	 * If the client contains a bug the data transfer seems to go well (which is wrong)
+	 * and the client stucks in wrong state. An exception is raised upon next operation.
+	 * 
+	 * If the client is bug-free then it figures out that the data transfer failed
+	 * and returns null. State transitions are ok.
+	 */ 
 	private static void demoFail(boolean clientDataConfirmationBug) {
 		if (clientDataConfirmationBug)
 			p("C:Server fails, client raises exception due to a bug");
@@ -75,6 +85,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Call demoRand(boolean) in loop, to prove or disprove a bug.
+	 * 
+	 * If the client contains a bug it is usually found in about 200 cycles.
+	 * If the client is bug-free all cycles are perfomed without an exception.
+	 */
 	private static void demoRand(boolean clientDataConfirmationBug, int loops) {
 		int i = 0;
 		try {
@@ -89,7 +105,14 @@ public class Main {
 		}
 	}
 	
-	
+	/**
+	 * Demonstration of client working agains a built-in server that can respond
+	 * an random code to every command.
+	 * 
+	 * You get different results upon each call.
+	 * 
+	 * If the client is bug-free it never raises an exception.
+	 */
 	private static void demoRand(boolean clientDataConfirmationBug) {
 		if (clientDataConfirmationBug)
 			p("C:Server with random behavior, client might raises exception due to a bug");
@@ -131,6 +154,9 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Simple happy-day scenario with built-in server.
+	 */
 	private static void demoTestNetwork() {
 		p("TestNetwork demo");
 		CClient client = new CClient(CClient.NET_TEST);
@@ -149,6 +175,9 @@ public class Main {
 		client.logout();
 	}
 
+	/**
+	 * Demonstrates an interaction with real FTP server.
+	 */
 	private static void demoWild() {
 		String host;
 		host = "ftp.zcu.cz";

@@ -20,15 +20,35 @@ import pypy.RandTestNetwork.__init___91;
 public class CClient {
 	private Client_73 impl;
 	
+	/**
+	 * Communication with real world server
+	 */
 	public static final int NET_WILD = 1;
+	/**
+	 * Communication with kind buil-in server
+	 */
 	public static final int NET_TEST = 2;
+	/**
+	 * Communication with built-in server that fails
+	 * to confirm data transfer.
+	 */
 	public static final int NET_TEST_FAIL = 3;
+	/**
+	 * Communication with built-in server that respond by
+	 * a random code to every command
+	 */
 	public static final int NET_RAND = 4;
 	
+	/**
+	 * Default constructor for communicating with real FTP server
+	 */
 	public CClient() {
 		init(NET_WILD);
 	}
 	
+	/**
+	 * Se NET_* constants.
+	 */
 	public CClient(int networkType) {
 		init(networkType);
 	}
@@ -63,6 +83,9 @@ public class CClient {
 		}
 	}
 	
+	/**
+	 * Switches the client bug ON/OFF
+	 */
 	public void setDataTransferConfirmationBug(boolean value) {
 		impl.osetDataTransferConfirmationBug(value);
 	}
