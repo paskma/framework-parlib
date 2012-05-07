@@ -19,7 +19,14 @@ public class Main {
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			p("No task given. Try one of:");
-			p("  --test, --wild, --fail, --fail-cbug, --rand1000, --rand-cbug1000");
+			p("  --test      (simple interaction with polite built-in server)");
+			p("  --wild      (simple interaction with real public FTP server; into the wild!)");
+			p("  --fail      (interaction with failing built-in server (bug-free client))");
+			p("  --fail-cbug (interaction with failing built-in server (client bug))");
+			p("  --rand      (interaction with built-in randomized server (bug-free client))");
+			p("  --rand-cbug (integration with built-in randomized server (client bug))");
+			p("  --rand1000           (1000 experiments as above)");
+			p("  --rand-cbug1000      (1000 experiments as above)");
 			return;
 		}
 		
