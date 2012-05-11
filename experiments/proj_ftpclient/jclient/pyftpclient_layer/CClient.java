@@ -17,6 +17,11 @@ import pypy.RandServer.__init___89;
 import pypy.test.netimpl_random.testnetwork.RandTestNetwork_90;
 import pypy.RandTestNetwork.__init___91;
 
+/**
+ * The FTP client to be used by an application.
+ * 
+ * Create, login, download files.
+ */
 public class CClient {
 	private Client_73 impl;
 	

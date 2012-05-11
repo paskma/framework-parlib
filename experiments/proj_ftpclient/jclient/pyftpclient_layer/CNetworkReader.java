@@ -4,6 +4,12 @@ import pypy.parlib.net.inetworkreader.INetworkReader_71;
 
 import paskma.ftpclient.net.INetworkReader;
 
+/**
+ * Internal infrastructure
+ * 
+ * Connects the generated pypy code to pure Java implementation
+ * of networking.
+ */
 public class CNetworkReader extends INetworkReader_71 {
 	private final INetworkReader impl;
 	

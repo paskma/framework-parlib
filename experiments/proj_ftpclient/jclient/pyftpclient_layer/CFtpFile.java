@@ -2,6 +2,11 @@ package pyftpclient_layer;
 
 import pypy.ftpclient.ftp_file.FtpFile_105;
 
+/**
+ * One item of directory listing.
+ * 
+ * Returned by CClient
+ */
 public class CFtpFile {
 	private final FtpFile_105 impl;
 
