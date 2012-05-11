@@ -132,6 +132,7 @@ class Client:
 			# confirmation message) was discovered by JPF. Visible after two subsequent client.retrieveFile.
 			if not self.DATA_TRANSFER_CONFIRMATION_BUG:
 				if not suc2:
+					# transaction failed, reset the state and return null
 					self.machine.dataConnectionClearAfterError()
 					return None
 			else:
