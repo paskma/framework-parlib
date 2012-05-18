@@ -1,0 +1,17 @@
+A framework for programs that can be compiled by pypy-sc (pypy standalone compiler).
+
+A (multithreaded) Python program based on this framework can:
+
+- run on the top of standard Python interpreter,
+- be translated to C, compiled and than run natively in the OS,
+- be translated to Java byte-code and then run on the top of JVM or be examined by Java Pathfinder
+
+If we take advantage of this multi-backend design, we can:
+
+- prototype applications rapidly as it can run without compilation,
+- embrace the flexibility of the dynamically typed language and use new paradigms such as AOP, DbC and DSL,
+- embrace the formal methods, for instance the model checking with the help of Java Pathfinder,
+- generate very compact and high performance machine code.
+
+It is mainly a research experiment.
+A bunch of examples included.
