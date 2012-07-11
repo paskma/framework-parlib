@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PU=../../watersystem_opt/parlibutil
+source ../../environment.sh
 
 rm -rf unpacked
 mkdir unpacked

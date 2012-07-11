@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PU=../../watersystem_opt/parlibutil
+source ../../environment.sh
 
 rm -rf unpacked
 mkdir unpacked
@@ -10,4 +10,4 @@ unzip themain-jvm.jar -d unpacked | wc -l
 rm -rf unpacked/com unpacked/META-INF
 
 export CLASSPATH="unpacked"
-java pypy.Main
+echo "Not running java pypy.Main"
