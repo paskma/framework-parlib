@@ -1,4 +1,10 @@
-FRAMEWORK=/home/paskma/projects/pypygit/pypy/translator/goal/framework-parlib
+PARLIB_FRAMEWORK_ROOT="/home/paskma/projects/pypygit/pypy/translator/goal/framework-parlib"
+PYPY_ROOT="/home/paskma/projects/pypygit"
+# this interpreter is used for compilation, not for "pure" run
+PYTHON_BIN="/home/paskma/B/opt/python24/bin/python"
+JPF_ROOT=/home/paskma/projects/jpf_trunk2
 
-PU="$FRAMEWORK/java_binding/parlibutil"
-export PU
+
+TRANSLATE="$PYPY_ROOT/pypy/translator/goal/translate.py"
+PU="$PARLIB_FRAMEWORK_ROOT/java_binding/parlibutil"
+
