@@ -10,7 +10,7 @@ from os.path import join, dirname
 
 _compilation_info_ = ExternalCompilationInfo(
 	includes = ['pasys.h'],
-	include_dirs = [join(dirname(__file__), '../../fiber/c')],
+	include_dirs = [join(dirname(__file__), '../../binding/c')],
 	libraries = ['pasys'],
 )
 def external(name, args, result, **kwds):
