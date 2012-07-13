@@ -6,5 +6,5 @@ JPF_ROOT=/home/paskma/projects/jpf_trunk2
 
 
 TRANSLATE="$PYPY_ROOT/pypy/translator/goal/translate.py"
-PU="$PARLIB_FRAMEWORK_ROOT/java_binding/parlibutil"
+PU="$PARLIB_FRAMEWORK_ROOT/binding/java/parlibutil"
 
