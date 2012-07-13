@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 source $DIR/../environment.sh
 
-OPTS_TRANSLATE="--translation-backendopt-none"
+OPTS_TRANSLATE=""
 OPTS_GC="boehm"
 OPTS_CFLAGS="-g"
 
