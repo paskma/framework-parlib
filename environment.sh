@@ -6,6 +6,3 @@ JPF_ROOT="/home/paskma/projects/jpf_trunk2"
 JASMIN_JAR="/home/paskma/B/opt/jasmin-2.2/jasmin.jar"
 
 
-TRANSLATE="$PYPY_ROOT/pypy/translator/goal/translate.py"
-PU="$PARLIB_FRAMEWORK_ROOT/binding/java/parlibutil"
-

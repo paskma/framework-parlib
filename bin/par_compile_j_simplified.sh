@@ -2,6 +2,7 @@
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 source $DIR/../environment.sh
+TRANSLATE="$PYPY_ROOT/pypy/translator/goal/translate.py"
 
 OPTS="--no-translation-backendopt-inline"
 

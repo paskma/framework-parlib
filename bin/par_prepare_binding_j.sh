@@ -2,6 +2,7 @@
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 source $DIR/../environment.sh
+PU="$PARLIB_FRAMEWORK_ROOT/binding/java/parlibutil"
 
 rm -rf unpacked
 mkdir unpacked

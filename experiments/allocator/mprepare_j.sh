@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PU=../../watersystem_opt/parlibutil
+PU="$PARLIB_FRAMEWORK_ROOT/binding/java/parlibutil"
+
 
 rm -rf unpacked
 mkdir unpacked
