@@ -5,7 +5,7 @@ source $DIR/../environment.sh
 
 WORKDIR="$(basename `pwd`)"
 TARGET=$JPF_ROOT/$WORKDIR
-echo "Using directory directory $TARGET"
+echo "Using directory $TARGET"
 mkdir -p $TARGET
 cp -r unpacked/* $TARGET
 
