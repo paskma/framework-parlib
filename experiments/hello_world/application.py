@@ -4,5 +4,5 @@
 
 class Application:
 	def main(self, argv):
-		print "Done."	
+		print "Hello, world!"
 		return 0
