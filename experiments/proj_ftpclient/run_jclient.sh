@@ -2,4 +2,4 @@
 
 export CLASSPATH=jclient:unpacked
 
-java paskma.main.Main
+java paskma.main.Main $@
