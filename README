@@ -1,4 +1,5 @@
-A framework for programs that can be compiled by pypy-sc (pypy standalone compiler).
+A framework for programs that can be compiled by pypy-sc (pypy standalone compiler), 
+  see https://github.com/paskma/pypy-sc
 
 A (multithreaded) Python program based on this framework can:
 
@@ -15,3 +16,6 @@ If we take advantage of this multi-backend design, we can:
 
 It is mainly a research experiment.
 A bunch of examples included.
+
+The installation guide can be found at
+ http://www.kiv.zcu.cz/site/documents/verejne/vyzkum/publikace/technicke-zpravy/2012/tr-2012-09.pdf
