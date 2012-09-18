@@ -54,11 +54,12 @@ def main():
 		f = client.retrieveFile("xx2")
 		assert (f is not None)
 	except StateException:
+		print "Expected warning ^."
 		# this operation may fail if the thread is not finished
 		# raising an exception is correct behavior
 		pass
 
-	print "C:", (file is not None)
+	print "C:", (f is not None)
 
 	print "C:joining thread"	
 	worker.join() ## INJECTION: comment this line to inject a bug
