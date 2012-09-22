@@ -1,2 +1,2 @@
 
-cp application-test-mt.py application.py
+cp application_test_mt.py application.py

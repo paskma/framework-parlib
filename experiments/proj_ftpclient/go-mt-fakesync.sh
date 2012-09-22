@@ -1,0 +1,1 @@
+cp application_test_mt_fakesync.py application.py

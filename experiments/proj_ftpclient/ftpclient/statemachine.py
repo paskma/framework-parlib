@@ -1,8 +1,11 @@
 
 from parlibutil.locking import Monitor
-from parlibutil.locking import synchronized
-# INJECTION: use this the following line instead of the above one to inject a bug
-#from parlibutil.locking import fake_synchronized as synchronized
+
+from statemachine_synchronization_config import USE_FAKE_SYNCHRONIZATION
+if USE_FAKE_SYNCHRONIZATION:
+	from parlibutil.locking import fake_synchronized as synchronized
+else:
+	from parlibutil.locking import synchronized
 
 from ftpclient.responsereader import ResponseReader
 from ftpclient import command as Command

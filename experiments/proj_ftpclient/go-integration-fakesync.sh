@@ -1,0 +1,1 @@
+cp application_integration_fakesync.py application.py
