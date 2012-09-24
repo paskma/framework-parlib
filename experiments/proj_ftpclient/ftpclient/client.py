@@ -14,9 +14,13 @@ class Client:
 		self.dataNet = dataNet
 		self.machine = StateMachine(commandNet)
 		self.DATA_TRANSFER_CONFIRMATION_BUG = False
+		self.PASV_RESPONSE_READ_BUG = False
 	
 	def setDataTransferConfirmationBug(self, value):
 		self.DATA_TRANSFER_CONFIRMATION_BUG = value
+	
+	def setPasvResponseReadingBug(self, value):
+		self.PASV_RESPONSE_READ_BUG = value
 	
 	def warn(self, message):
 		print "WARN %s" % message
@@ -56,9 +60,16 @@ class Client:
 			return None
 
 		dataSocket = self.machine.getDataSocket()
-		if dataSocket is None:
-			self.machine.dataConnectionClearAfterError()
-			return None
+		
+		## INJECTION
+		# The transaction may go well (reponse code is OK) but the
+		# returned IP address and port may not be readable.
+		if not self.PASV_RESPONSE_READ_BUG:
+			if dataSocket is None:
+				self.machine.dataConnectionClearAfterError()
+				return None
+		else:
+			self.warn("PASV_RESPONSE_READ_BUG is active")
 		
 		suc = self.dataNet.connect(dataSocket.hostname, dataSocket.port)
 		
@@ -111,10 +122,16 @@ class Client:
 		
 		dataSocket = self.machine.getDataSocket()
 		
-		if dataSocket is None:
-			self.machine.dataConnectionClearAfterError()
-			return None
-		
+		## INJECTION
+		# The transaction may go well (reponse code is OK) but the
+		# returned IP address and port may not be readable.
+		if not self.PASV_RESPONSE_READ_BUG:
+			if dataSocket is None:
+				self.machine.dataConnectionClearAfterError()
+				return None
+		else:
+			self.warn("PASV_RESPONSE_READ_BUG is active")
+					
 		suc = self.dataNet.connect(dataSocket.hostname, dataSocket.port)
 		
 		if not suc:
@@ -152,14 +169,16 @@ class Client:
 			return None
 		
 		dataSocket = self.machine.getDataSocket()
-		
-		## INJECTION: discovered by experiment in which server reponses
-		#             by resp[0:random(len(resp))]
-		if dataSocket is None:
-			## INJECTION the following line was added after the same experiment
-			#            otherwise it stucked in WAITING_DATA_CONNECTION state
-			self.machine.dataConnectionClearAfterError()
-			return None # prevent NPE
+
+		## INJECTION
+		# The transaction may go well (reponse code is OK) but the
+		# returned IP address and port may not be readable.
+		if not self.PASV_RESPONSE_READ_BUG:
+			if dataSocket is None:
+				self.machine.dataConnectionClearAfterError()
+				return None
+		else:
+			self.warn("PASV_RESPONSE_READ_BUG is active")
 		
 		self.dataNet.connect(dataSocket.hostname, dataSocket.port)
 		dataReader = self.dataNet.createNetworkReader()

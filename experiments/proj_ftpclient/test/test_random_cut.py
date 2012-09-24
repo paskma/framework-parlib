@@ -15,6 +15,7 @@ def main():
 	dataNet = TestNetwork(server, True)
 	host = "foo"
 	client = Client(commandNet, dataNet)
+	client.setPasvResponseReadingBug(True)
 	# This sets the artificial clien bug:
 	#client.setDataTransferConfirmationBug(True)
 	suc = client.connect(host, 21)
