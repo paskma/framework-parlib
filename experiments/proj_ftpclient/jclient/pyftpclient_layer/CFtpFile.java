@@ -1,6 +1,6 @@
 package pyftpclient_layer;
 
-import pypy.ftpclient.ftp_file.FtpFile_103;
+import pypy.ftpclient.ftp_file.FtpFile_104;
 
 /**
  * One item of directory listing.
@@ -8,9 +8,9 @@ import pypy.ftpclient.ftp_file.FtpFile_103;
  * Returned by CClient
  */
 public class CFtpFile {
-	private final FtpFile_103 impl;
+	private final FtpFile_104 impl;
 
-	public CFtpFile(FtpFile_103 impl) {
+	public CFtpFile(FtpFile_104 impl) {
 		this.impl = impl;
 	}
 

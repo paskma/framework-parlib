@@ -1,6 +1,6 @@
 package pyftpclient_layer;
 
-import pypy.ftpclient.filestream.FileStream_79;
+import pypy.ftpclient.filestream.FileStream_80;
 
 /**
  * File stream for downloading large files.
@@ -8,9 +8,9 @@ import pypy.ftpclient.filestream.FileStream_79;
  * Returned by CClient.
  */
 public class CFileStream {
-	private final FileStream_79 impl;
+	private final FileStream_80 impl;
 	
-	public CFileStream(FileStream_79 impl) {
+	public CFileStream(FileStream_80 impl) {
 		this.impl = impl;
 	}
 

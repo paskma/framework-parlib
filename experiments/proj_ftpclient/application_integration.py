@@ -4,6 +4,7 @@ from parlib.directive import TRANSLATED
 from test import test_integration
 from test import test_injection
 from test import test_random
+from test import test_random_cut
 from ftpclient.statemachine import StateException
 from test.server import StateException as ServerStateException
 
@@ -45,6 +46,14 @@ class Application:
 			test_random.main()
 		except StateException, ex:
 			print "Exception is randomly possible"
-				
+			
+		
+		print "=Random part (cut)..."
+		try:
+			test_random_cut.main()
+		except StateException, ex:
+			print "Exception is randomly possible"
+		
+		
 		print "=Integration Done."
 		return 0
