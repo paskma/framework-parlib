@@ -11,6 +11,7 @@ def main(clientBug):
 	host = "foo"
 	client = Client(commandNet, dataNet)
 	client.setDataTransferConfirmationBug(clientBug)
+	client.setPasvResponseReadingBug(clientBug)
 	suc = client.connect(host, 21)
 	print "C:Test connected:", suc
 	client.login("anonymous", "osgiftp@kiv.zcu.cz")

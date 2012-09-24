@@ -32,6 +32,12 @@ public class Main {
 			p("  --confirm-rand-cbug (integration with built-in randomized server (client bug))");
 			p("  --confirm-rand1000           (1000 experiments as above)");
 			p("  --confirm-rand-cbug1000      (1000 experiments as above)");
+			p("");
+			p(" The pasv response reading bug experiments.");
+			p("  --pasv-rand");
+			p("  --pasv-rand-cbug");
+			p("  --pasv-rand1000");
+			p("  --pasv-rand-cbug1000");
 			return;
 		}
 		
@@ -53,6 +59,14 @@ public class Main {
 			demoRand(false, 1000);
 		} else if (arg.equals("--confirm-rand-cbug1000")) {
 			demoRand(true, 1000);
+		} else if (arg.equals("--pasv-rand")) {
+			demoPasvRand(false);
+		} else if (arg.equals("--pasv-rand-cbug")) {
+			demoPasvRand(true);
+		} else if (arg.equals("--pasv-rand1000")) {
+			demoPasvRand(false, 1000);
+		} else if (arg.equals("--pasv-rand-cbug1000")) {
+			demoPasvRand(true, 1000);
 		} else {
 			p("Option not recognized: " + arg);
 		}
@@ -117,6 +131,20 @@ public class Main {
 		}
 	}
 	
+	private static void demoPasvRand(boolean clientDataConfirmationBug, int loops) {
+		int i = 0;
+		try {
+			for (i = 0; i < loops; i++) {
+				demoPasvRand(clientDataConfirmationBug);
+				//exception will break the loop
+			}
+			p("All loops performed " + loops);
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			p("Exception found in loop " + i);
+		}
+	}
+	
 	/**
 	 * Demonstration of client working agains a built-in server that can respond
 	 * an random code to every command.
@@ -131,8 +159,49 @@ public class Main {
 		else
 			p("C:Server with random behavior, client handles that gracefully");
 			
-		CClient client = new CClient(CClient.NET_RAND);
+		CClient client = new CClient(CClient.NET_CODE_RAND);
 		client.setDataTransferConfirmationBug(clientDataConfirmationBug);
+
+		boolean suc = client.connect("ignored", 21);
+		if (!suc) {
+			p("C:Can not connect, end.");
+			return;
+		}
+		suc = client.login("anonymous", "osgiftp@kiv.zcu.cz");
+		if (!suc) {
+			p("C:Can not log in, end.");
+			return;
+		}
+		
+		byte[] f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File is:\n"+ new String(f));
+		else
+			p("C:File transfer failed.");
+
+		p("C:##Second shot...");
+		
+		f = client.retrieveFile("xx");
+		if (f != null)
+			p("C:File(2) is:\n"+ new String(f));
+		else
+			p("C:File(2) transfer failed.");
+		
+		suc = client.logout();
+		if (!suc) {
+			p("C:Can not logout.");
+			return;
+		}
+	}
+	
+	private static void demoPasvRand(boolean clientPasvResponseReadingBug) {
+		if (clientPasvResponseReadingBug)
+			p("C:Server with random behavior, client might raises exception due to a bug");
+		else
+			p("C:Server with random behavior, client handles that gracefully");
+			
+		CClient client = new CClient(CClient.NET_CODE_RAND);
+		client.setPasvResponseReadingBug(clientPasvResponseReadingBug);
 
 		boolean suc = client.connect("ignored", 21);
 		if (!suc) {

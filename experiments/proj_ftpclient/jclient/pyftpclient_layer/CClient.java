@@ -16,6 +16,8 @@ import pypy.test.server_random.RandServer_89;
 import pypy.RandServer.__init___92;
 import pypy.test.netimpl_random.testnetwork.RandTestNetwork_93;
 import pypy.RandTestNetwork.__init___94;
+import pypy.test.server_random.RandServerConfig_90;
+import pypy.RandServerConfig.__init___100;
 
 /**
  * The FTP client to be used by an application.
@@ -42,7 +44,11 @@ public class CClient {
 	 * Communication with built-in server that respond by
 	 * a random code to every command
 	 */
-	public static final int NET_RAND = 4;
+	public static final int NET_CODE_RAND = 4;
+	/**
+	 * Built-in server randomly cuts every response.
+	 */
+	public static final int NET_LINE_CUT_RAND = 5;
 	
 	/**
 	 * Default constructor for communicating with real FTP server
@@ -76,23 +82,39 @@ public class CClient {
 			__init___81.invoke(impl, commandNet, dataNet);
 		} else if (networkType == NET_WILD) {
 			__init___81.invoke(impl, new CNetwork(), new CNetwork());
-		} else if (networkType == NET_RAND) {
+		} else if (networkType == NET_CODE_RAND || networkType == NET_LINE_CUT_RAND) {
+			RandServerConfig_90 config = null;
+			
+			if (networkType == NET_LINE_CUT_RAND) {
+				config = new RandServerConfig_90();
+				__init___100.invoke(config);
+				config.osetSERVER_LEVEL(0);
+				config.osetREADLINE_LEVEL(2);
+			}
+			
 			RandServer_89 server = new RandServer_89();
-			__init___92.invoke(server, null);
+			__init___92.invoke(server, config);
 			RandTestNetwork_93 commandNet = new RandTestNetwork_93();
-			__init___94.invoke(commandNet, server, false, null);
+			__init___94.invoke(commandNet, server, false, config);
 			RandTestNetwork_93 dataNet = new RandTestNetwork_93();
-			__init___94.invoke(dataNet, server, true, null);
+			__init___94.invoke(dataNet, server, true, config);
 			
 			__init___81.invoke(impl, commandNet, dataNet);
 		}
 	}
 	
 	/**
-	 * Switches the client bug ON/OFF
+	 * Switches the confirmation client bug ON/OFF
 	 */
 	public void setDataTransferConfirmationBug(boolean value) {
 		impl.osetDataTransferConfirmationBug(value);
+	}
+	
+	/**
+	 * Switches the PASV response reading bug ON/OFF
+	 */
+	public void setPasvResponseReadingBug(boolean value) {
+		impl.osetPasvResponseReadingBug(value);
 	}
 	
 	public boolean connect(String host, int port) {
