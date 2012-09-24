@@ -18,15 +18,20 @@ public class Main {
 	
 	public static void main(String[] args) {
 		if (args.length != 1) {
-			p("No task given. Try one of:");
+			p("No task given.");
+			p(" General basic experiments.");
 			p("  --test      (simple interaction with polite built-in server)");
 			p("  --wild      (simple interaction with real public FTP server; into the wild!)");
-			p("  --fail      (interaction with failing built-in server (bug-free client))");
-			p("  --fail-cbug (interaction with failing built-in server (client bug))");
-			p("  --rand      (interaction with built-in randomized server (bug-free client))");
-			p("  --rand-cbug (integration with built-in randomized server (client bug))");
-			p("  --rand1000           (1000 experiments as above)");
-			p("  --rand-cbug1000      (1000 experiments as above)");
+			p("");
+			p(" The confirmation bug experiments.");
+			p(" The server fails to confirm data transfer, returns 500 instead of 255, or it returns random response.");
+			p(" If the client contains a but, th state machine does not reset state after the failed transaction.");
+			p("  --confirm-fail      (interaction with failing built-in server (bug-free client))");
+			p("  --confirm-fail-cbug (interaction with failing built-in server (client bug))");
+			p("  --confirm-rand      (interaction with built-in randomized server (bug-free client))");
+			p("  --confirm-rand-cbug (integration with built-in randomized server (client bug))");
+			p("  --confirm-rand1000           (1000 experiments as above)");
+			p("  --confirm-rand-cbug1000      (1000 experiments as above)");
 			return;
 		}
 		
@@ -36,17 +41,17 @@ public class Main {
 			demoTestNetwork();
 		} else if (arg.equals("--wild")) {
 			demoWild();
-		} else if (arg.equals("--fail")) {
+		} else if (arg.equals("--confirm-fail")) {
 			demoFail(false);
-		} else if (arg.equals("--fail-cbug")) {
+		} else if (arg.equals("--confirm-fail-cbug")) {
 			demoFail(true);
-		} else if (arg.equals("--rand")) {
+		} else if (arg.equals("--confirm-rand")) {
 			demoRand(false);
-		} else if (arg.equals("--rand-cbug")) {
+		} else if (arg.equals("--confirm-rand-cbug")) {
 			demoRand(true);
-		} else if (arg.equals("--rand1000")) {
+		} else if (arg.equals("--confirm-rand1000")) {
 			demoRand(false, 1000);
-		} else if (arg.equals("--rand-cbug1000")) {
+		} else if (arg.equals("--confirm-rand-cbug1000")) {
 			demoRand(true, 1000);
 		} else {
 			p("Option not recognized: " + arg);
