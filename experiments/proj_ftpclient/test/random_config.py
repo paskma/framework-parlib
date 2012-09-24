@@ -1,3 +1,7 @@
+#
+# Do not change this file directly.
+# Import in as the first module change it imperatively.
+#
 
 #
 # 0 - no randomization

@@ -7,6 +7,9 @@ from ftpclient.statemachine import StateException
 
 
 def main():
+	"""
+		Tests various sequences of commands.
+	"""
 	server = Server()
 
 	commandNet = TestNetwork(server, False)

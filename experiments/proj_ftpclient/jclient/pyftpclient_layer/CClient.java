@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import pypy.ftpclient.client.Client_73;
 import pypy.Client.__init___80;
-import pypy.ftpclient.ftp_file.FtpFile_105;
+import pypy.ftpclient.ftp_file.FtpFile_103;
 import pypy.ftpclient.filestream.FileStream_79;
 
 import pypy.test.netimpl.testnetwork.TestNetwork_69;
@@ -13,9 +13,9 @@ import pypy.test.server.Server_67;
 import pypy.Server.__init___68;
 
 import pypy.test.server_random.RandServer_88;
-import pypy.RandServer.__init___89;
-import pypy.test.netimpl_random.testnetwork.RandTestNetwork_90;
-import pypy.RandTestNetwork.__init___91;
+import pypy.RandServer.__init___90;
+import pypy.test.netimpl_random.testnetwork.RandTestNetwork_91;
+import pypy.RandTestNetwork.__init___92;
 
 /**
  * The FTP client to be used by an application.
@@ -78,11 +78,11 @@ public class CClient {
 			__init___80.invoke(impl, new CNetwork(), new CNetwork());
 		} else if (networkType == NET_RAND) {
 			RandServer_88 server = new RandServer_88();
-			__init___89.invoke(server);
-			RandTestNetwork_90 commandNet = new RandTestNetwork_90();
-			__init___91.invoke(commandNet, server, false);
-			RandTestNetwork_90 dataNet = new RandTestNetwork_90();
-			__init___91.invoke(dataNet, server, true);
+			__init___90.invoke(server);
+			RandTestNetwork_91 commandNet = new RandTestNetwork_91();
+			__init___92.invoke(commandNet, server, false);
+			RandTestNetwork_91 dataNet = new RandTestNetwork_91();
+			__init___92.invoke(dataNet, server, true);
 			
 			__init___80.invoke(impl, commandNet, dataNet);
 		}
@@ -115,7 +115,7 @@ public class CClient {
 		CFtpFile[] result = new CFtpFile[raw.size()];
 		int counter = 0;
 		for (Object i : raw) {
-			FtpFile_105 file = (FtpFile_105)i;
+			FtpFile_103 file = (FtpFile_103)i;
 			result[counter++] = new CFtpFile(file);
 		}
 		

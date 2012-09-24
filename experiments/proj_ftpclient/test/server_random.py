@@ -1,9 +1,26 @@
 from parlib.verify import random
-import test.random_config as config
+import test.random_config as random_config
 
 class StateException(Exception):
 	def __init__(self, message):
 		self.message = message
+
+class RandServerConfig:
+	def __init__(self):
+		self.READLINE_LEVEL = random_config.READLINE_LEVEL
+		self.READALL_LEVEL = random_config.READALL_LEVEL
+		self.READCHAR_LEVEL = random_config.READCHAR_LEVEL
+		
+		self.WRITE_LEVEL = random_config.WRITE_LEVEL
+		self.CONNECT_LEVEL = random_config.CONNECT_LEVEL
+		
+		self.SERVER_LEVEL = random_config.SERVER_LEVEL
+	
+	def setSERVER_LEVEL(self, level):
+		self.SERVER_LEVEL = level
+	
+	def setREADLINE_LEVEL(self, level):
+		self.READLINE_LEVEL = level
 
 class RandServer:
 	S_STATE_READY = 1;
@@ -33,11 +50,15 @@ class RandServer:
 	}
 	
 
-	def __init__(self):
+	def __init__(self, randServerConfig=None):
 		self.order = None
 		self.state = self.S_STATE_READY
 		self.command = None
 		self.experimentErrorListing = False
+		if randServerConfig is None:
+			self.config = RandServerConfig()
+		else:
+			self.config = randServerConfig
 	
 	def assertState(self, shouldBe):
 		if self.state != shouldBe:
@@ -92,10 +113,10 @@ class RandServer:
 		except StateException:
 			pass
 		
-		if config.SERVER_LEVEL == 1:
+		if self.config.SERVER_LEVEL == 1:
 			if random(1) == 0:
 				return "500 FAIL\r\n"
-		elif config.SERVER_LEVEL == 2:
+		elif self.config.SERVER_LEVEL == 2:
 			r = random(5)
 			if r == 0:
 				pass
