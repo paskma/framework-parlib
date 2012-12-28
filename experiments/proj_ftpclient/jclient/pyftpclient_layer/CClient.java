@@ -24,7 +24,7 @@ import pypy.RandServerConfig.__init___100;
  * 
  * Create, login, download files.
  */
-public class CClient {
+public class CClient implements ICClient {
 	private Client_74 impl;
 	
 	/**
