@@ -25,7 +25,7 @@ public class Main {
 			p("");
 			p(" The confirmation bug experiments.");
 			p(" The server fails to confirm data transfer, returns 500 instead of 255, or it returns random response.");
-			p(" If the client contains a bug, th state machine does not reset state after the failed transaction.");
+			p(" If the client contains a bug, the state machine does not reset state after the failed transaction.");
 			p("  --confirm-fail      (interaction with failing built-in server (bug-free client))");
 			p("  --confirm-fail-cbug (interaction with failing built-in server (client bug))");
 			p("  --confirm-rand      (interaction with built-in randomized server (bug-free client))");
