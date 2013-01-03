@@ -108,6 +108,10 @@ public class Main {
 		client.logout();		
 	}
 	
+	private static void retrXX(CClient client) {
+		retrXX(client, false);
+	}
+	
 	private static void retrXX(CClient client, boolean useStream) {
 		if (useStream)  {
 			CFileStream stream = client.retrieveFileStream("xx");
@@ -197,19 +201,9 @@ public class Main {
 			return;
 		}
 		
-		byte[] f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File is:\n"+ new String(f));
-		else
-			p("C:File transfer failed.");
-
+		retrXX(client);
 		p("C:##Second shot...");
-		
-		f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File(2) is:\n"+ new String(f));
-		else
-			p("C:File(2) transfer failed.");
+		retrXX(client);
 		
 		suc = client.logout();
 		if (!suc) {
@@ -238,19 +232,9 @@ public class Main {
 			return;
 		}
 		
-		byte[] f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File is:\n"+ new String(f));
-		else
-			p("C:File transfer failed.");
-
+		retrXX(client);
 		p("C:##Second shot...");
-		
-		f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File(2) is:\n"+ new String(f));
-		else
-			p("C:File(2) transfer failed.");
+		retrXX(client);
 		
 		suc = client.logout();
 		if (!suc) {
