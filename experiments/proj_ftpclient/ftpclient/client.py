@@ -185,7 +185,9 @@ class Client:
 		self.machine.dataConnectionEstablished()
 		suc = self.machine.retr(filename)
 		if suc:
-			return FileStream(dataReader, self.machine)
+			result = FileStream(dataReader, self.machine)
+			result.setDATA_TRANSFER_CONFIRMATION_BUG(self.DATA_TRANSFER_CONFIRMATION_BUG)
+			return result;
 		else:
 			self.machine.dataConnectionClearAfterError()
 			return None

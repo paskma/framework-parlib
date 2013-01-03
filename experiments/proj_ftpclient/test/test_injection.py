@@ -37,7 +37,20 @@ def main(clientBug):
 		print "C:File is(3):\r\n", f
 	else:
 		print "C:File transfer failed.(3)"
+	
+	print "C:##Stream shot..."	
+	
+	stream = client.retrieveFileStream("xx")
+	counter = 0
+	while True:
+		c = stream.read()
+		if c == -1:
+			stream.close()
+			break
+		else:
+			counter += 1
 
+	print "Stream contained %d bytes" % counter
 	
 	client.logout()
 	

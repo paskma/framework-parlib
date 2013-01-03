@@ -27,7 +27,9 @@ public class Main {
 			p(" The server fails to confirm data transfer, returns 500 instead of 255, or it returns random response.");
 			p(" If the client contains a bug, the state machine does not reset state after the failed transaction.");
 			p("  --confirm-fail      (interaction with failing built-in server (bug-free client))");
+			p("  --stream-confirm-fail (as above, uses stream retr)");
 			p("  --confirm-fail-cbug (interaction with failing built-in server (client bug))");
+			p("  --stream-confirm-fail-cbug (as above, uses stream retr)");
 			p("  --confirm-rand      (interaction with built-in randomized server (bug-free client))");
 			p("  --confirm-rand-cbug (integration with built-in randomized server (client bug))");
 			p("  --confirm-rand1000           (1000 experiments as above)");
@@ -48,9 +50,13 @@ public class Main {
 		} else if (arg.equals("--wild")) {
 			demoWild();
 		} else if (arg.equals("--confirm-fail")) {
-			demoFail(false);
+			demoFail(false, false);
 		} else if (arg.equals("--confirm-fail-cbug")) {
-			demoFail(true);
+			demoFail(true, false);
+		} else if (arg.equals("--stream-confirm-fail")) {
+			demoFail(false, true);
+		} else if (arg.equals("--stream-confirm-fail-cbug")) {
+			demoFail(true, true);
 		} else if (arg.equals("--confirm-rand")) {
 			demoRand(false);
 		} else if (arg.equals("--confirm-rand-cbug")) {
@@ -82,7 +88,10 @@ public class Main {
 	 * If the client is bug-free then it figures out that the data transfer failed
 	 * and returns null. State transitions are ok.
 	 */ 
-	private static void demoFail(boolean clientDataConfirmationBug) {
+	private static void demoFail(
+		boolean clientDataConfirmationBug,
+		boolean useStream) {
+			
 		if (clientDataConfirmationBug)
 			p("C:Server fails, client raises exception due to a bug");
 		else
@@ -93,22 +102,37 @@ public class Main {
 		client.connect("ignored", 21);
 		client.login("anonymous", "osgiftp@kiv.zcu.cz");
 		
-		byte[] f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File is:\n"+ new String(f));
-		else
-			p("C:File transfer failed.");
-
+		retrXX(client, useStream);
 		p("C:##Second shot...");
-		
-		f = client.retrieveFile("xx");
-		if (f != null)
-			p("C:File(2) is:\n"+ new String(f));
-		else
-			p("C:File(2) transfer failed.");
-		
-		client.logout();
-		
+		retrXX(client, useStream);		
+		client.logout();		
+	}
+	
+	private static void retrXX(CClient client, boolean useStream) {
+		if (useStream)  {
+			CFileStream stream = client.retrieveFileStream("xx");
+			if (stream == null) {
+				p("C:FileStream transfer failed");
+				return;
+			}
+			
+			int counter = 0;
+			for(;;counter++) {
+				int c = stream.read();				
+				if (c == -1) {
+					stream.close();
+					break;
+				}
+			}
+			
+			p(String.format("C:FileStream contained %d bytes.", counter));			
+		} else {
+			byte[] f = client.retrieveFile("xx");
+			if (f != null)
+				p("C:File is:\n"+ new String(f));
+			else
+				p("C:File transfer failed.");
+		}
 	}
 	
 	/**
