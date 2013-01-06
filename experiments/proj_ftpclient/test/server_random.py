@@ -79,7 +79,12 @@ class RandServer:
 		self.experimentErrorListing = value
 	
 	def connectToCommand(self):
-		self.assertState(self.S_STATE_READY)
+		try:
+			self.assertState(self.S_STATE_READY)
+		except StateException:
+			#INJECT found by simulation, it keeps the client instance
+			# probably useless note
+			print "Rand server in unexpected state upon connect, ignoring."
 		self.setState(self.S_STATE_CONNECTED)
 		self.setCommand("GREETING")
 	
