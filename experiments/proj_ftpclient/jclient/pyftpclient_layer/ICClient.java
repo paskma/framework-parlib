@@ -25,6 +25,8 @@ public interface ICClient {
 	
 	public boolean isConnected();
 	
+	public boolean isLogged();
+	
 	public boolean login(String username, String password);
 	
 	public CFtpFile[] listFiles();

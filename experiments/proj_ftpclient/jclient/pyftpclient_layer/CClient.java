@@ -2,22 +2,22 @@ package pyftpclient_layer;
 
 import java.util.ArrayList;
 
-import pypy.ftpclient.client.Client_74;
-import pypy.Client.__init___81;
-import pypy.ftpclient.ftp_file.FtpFile_104;
-import pypy.ftpclient.filestream.FileStream_80;
+import pypy.ftpclient.client.Client_81;
+import pypy.Client.__init___88;
+import pypy.ftpclient.ftp_file.FtpFile_100;
+import pypy.ftpclient.filestream.FileStream_87;
 
-import pypy.test.netimpl.testnetwork.TestNetwork_70;
-import pypy.TestNetwork.__init___73;
-import pypy.test.server.Server_68;
-import pypy.Server.__init___69;
+import pypy.test.netimpl.testnetwork.TestNetwork_77;
+import pypy.TestNetwork.__init___80;
+import pypy.test.server.Server_75;
+import pypy.Server.__init___76;
 
-import pypy.test.server_random.RandServer_89;
-import pypy.RandServer.__init___92;
-import pypy.test.netimpl_random.testnetwork.RandTestNetwork_93;
-import pypy.RandTestNetwork.__init___94;
-import pypy.test.server_random.RandServerConfig_90;
-import pypy.RandServerConfig.__init___100;
+import pypy.test.server_random.RandServer_104;
+import pypy.RandServer.__init___105;
+import pypy.test.netimpl_random.testnetwork.RandTestNetwork_106;
+import pypy.RandTestNetwork.__init___107;
+import pypy.test.server_random.RandServerConfig_102;
+import pypy.RandServerConfig.__init___103;
 
 /**
  * The FTP client to be used by an application.
@@ -25,7 +25,7 @@ import pypy.RandServerConfig.__init___100;
  * Create, login, download files.
  */
 public class CClient implements ICClient {
-	private Client_74 impl;
+	private Client_81 impl;
 	
 	/**
 	 * Communication with real world server
@@ -65,41 +65,41 @@ public class CClient implements ICClient {
 	}
 	
 	private void init(int networkType) {
-		impl = new Client_74();
+		impl = new Client_81();
 		if (networkType == NET_TEST || networkType == NET_TEST_FAIL) {
-			Server_68 server = new Server_68();
-			__init___69.invoke(server);
+			Server_75 server = new Server_75();
+			__init___76.invoke(server);
 			if (networkType == NET_TEST_FAIL){
 				server.osetExperimentErrorDataTransferConfirmation(true);
 			}
 			
-			TestNetwork_70 commandNet = new TestNetwork_70();
-			__init___73.invoke(commandNet, server, false);
-			TestNetwork_70 dataNet = new TestNetwork_70();
-			__init___73.invoke(dataNet, server, true);
+			TestNetwork_77 commandNet = new TestNetwork_77();
+			__init___80.invoke(commandNet, server, false);
+			TestNetwork_77 dataNet = new TestNetwork_77();
+			__init___80.invoke(dataNet, server, true);
 
 			
-			__init___81.invoke(impl, commandNet, dataNet);
+			__init___88.invoke(impl, commandNet, dataNet);
 		} else if (networkType == NET_WILD) {
-			__init___81.invoke(impl, new CNetwork(), new CNetwork());
+			__init___88.invoke(impl, new CNetwork(), new CNetwork());
 		} else if (networkType == NET_CODE_RAND || networkType == NET_LINE_CUT_RAND) {
-			RandServerConfig_90 config = null;
+			RandServerConfig_102 config = null;
 			
 			if (networkType == NET_LINE_CUT_RAND) {
-				config = new RandServerConfig_90();
-				__init___100.invoke(config);
+				config = new RandServerConfig_102();
+				__init___103.invoke(config);
 				config.osetSERVER_LEVEL(0);
 				config.osetREADLINE_LEVEL(2);
 			}
 			
-			RandServer_89 server = new RandServer_89();
-			__init___92.invoke(server, config);
-			RandTestNetwork_93 commandNet = new RandTestNetwork_93();
-			__init___94.invoke(commandNet, server, false, config);
-			RandTestNetwork_93 dataNet = new RandTestNetwork_93();
-			__init___94.invoke(dataNet, server, true, config);
+			RandServer_104 server = new RandServer_104();
+			__init___105.invoke(server, config);
+			RandTestNetwork_106 commandNet = new RandTestNetwork_106();
+			__init___107.invoke(commandNet, server, false, config);
+			RandTestNetwork_106 dataNet = new RandTestNetwork_106();
+			__init___107.invoke(dataNet, server, true, config);
 			
-			__init___81.invoke(impl, commandNet, dataNet);
+			__init___88.invoke(impl, commandNet, dataNet);
 		}
 	}
 	
@@ -129,6 +129,10 @@ public class CClient implements ICClient {
 		return impl.ologin(username, password);
 	}
 	
+	public boolean isLogged() {
+		return impl.oisLogged();
+	}
+	
 	public CFtpFile[] listFiles() {
 		ArrayList raw = impl.olistFiles();
 		if (raw == null)
@@ -137,7 +141,7 @@ public class CClient implements ICClient {
 		CFtpFile[] result = new CFtpFile[raw.size()];
 		int counter = 0;
 		for (Object i : raw) {
-			FtpFile_104 file = (FtpFile_104)i;
+			FtpFile_100 file = (FtpFile_100)i;
 			result[counter++] = new CFtpFile(file);
 		}
 		
@@ -165,7 +169,7 @@ public class CClient implements ICClient {
 	}
 	
 	public CFileStream retrieveFileStream(String filename) {
-		FileStream_80 result = impl.oretrieveFileStream(filename);
+		FileStream_87 result = impl.oretrieveFileStream(filename);
 		if (result == null)
 			return null;
 			

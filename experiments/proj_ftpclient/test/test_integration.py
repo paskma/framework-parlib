@@ -64,5 +64,5 @@ def wiring():
 	dataNet = INetwork()
 	client = Client(commandNet, dataNet)
 	client.connect("bar", 122)
-	return client.isConnected()
+	return (client.isConnected(), client.isLogged())
 	

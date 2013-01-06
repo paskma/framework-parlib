@@ -1,4 +1,4 @@
-from ftpclient.statemachine import StateMachine, STATE_READY, STATE_CONNECTED, STATE_LOGGED
+from ftpclient.statemachine import StateMachine, STATE_READY, STATE_CONNECTED, STATE_LOGGED, STATE_WAITING_PASSWORD
 from ftpclient.directory_parser import parseListing
 from ftpclient.filestream import FileStream
 
@@ -33,6 +33,11 @@ class Client:
 	
 	def isConnected(self):
 		return self.machine.getState() != STATE_READY
+	
+	def isLogged(self):
+		return (self.machine.getState() != STATE_READY
+			and self.machine.getState() != STATE_CONNECTED
+			and self.machine.getState() != STATE_WAITING_PASSWORD)
 
 	def login(self, username, password):
 		if self.machine.getState() != STATE_CONNECTED:
@@ -45,6 +50,10 @@ class Client:
 		if self.machine.getState() == STATE_LOGGED:
 			return True
 
+		## INJECTION
+		# Here is a bug found by simulation.
+		# If the following command fails, the state machine stuck in WAITING_PASSWORD.
+		# The result of machine.user method should be also properly checked.
 		suc = self.machine.password(password)
 
 		return suc

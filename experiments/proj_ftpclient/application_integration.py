@@ -51,7 +51,7 @@ class Application:
 		print "=Random part (cut)..."
 		try:
 			test_random_cut.main()
-		except StateException, ex:
+		except (StateException, AttributeError), ex:
 			print "Exception is randomly possible"
 		
 		
