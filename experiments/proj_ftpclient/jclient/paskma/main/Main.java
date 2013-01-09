@@ -30,16 +30,17 @@ public class Main {
 			p("  --stream-confirm-fail (as above, uses stream retr)");
 			p("  --confirm-fail-cbug (interaction with failing built-in server (client bug))");
 			p("  --stream-confirm-fail-cbug (as above, uses stream retr)");
+			p("  --confirm-rand-pass-all-1m (There exists a scenario of failin server that actully doesn't fail.");
 			p("  --confirm-rand      (interaction with built-in randomized server (bug-free client))");
 			p("  --confirm-rand-cbug (integration with built-in randomized server (client bug))");
-			p("  --confirm-rand1000           (1000 experiments as above)");
-			p("  --confirm-rand-cbug1000      (1000 experiments as above)");
+			p("  --confirm-rand-1000           (1000 experiments as above)");
+			p("  --confirm-rand-cbug-1000      (1000 experiments as above)");
 			p("");
 			p(" The pasv response reading bug experiments.");
 			p("  --pasv-rand");
 			p("  --pasv-rand-cbug");
-			p("  --pasv-rand1000");
-			p("  --pasv-rand-cbug1000");
+			p("  --pasv-rand-1000");
+			p("  --pasv-rand-cbug-1000");
 			return;
 		}
 		
@@ -61,17 +62,19 @@ public class Main {
 			demoRand(false);
 		} else if (arg.equals("--confirm-rand-cbug")) {
 			demoRand(true);
-		} else if (arg.equals("--confirm-rand1000")) {
+		} else if (arg.equals("--confirm-rand-1000")) {
 			demoRand(false, 1000);
-		} else if (arg.equals("--confirm-rand-cbug1000")) {
+		} else if (arg.equals("--confirm-rand-cbug-1000")) {
 			demoRand(true, 1000);
+		} else if (arg.equals("--confirm-rand-pass-all-1m")) {
+			demoTryPassAll(1000000);
 		} else if (arg.equals("--pasv-rand")) {
 			demoPasvRand(false);
 		} else if (arg.equals("--pasv-rand-cbug")) {
 			demoPasvRand(true);
-		} else if (arg.equals("--pasv-rand1000")) {
+		} else if (arg.equals("--pasv-rand-1000")) {
 			demoPasvRand(false, 1000);
-		} else if (arg.equals("--pasv-rand-cbug1000")) {
+		} else if (arg.equals("--pasv-rand-cbug-1000")) {
 			demoPasvRand(true, 1000);
 		} else {
 			p("Option not recognized: " + arg);
@@ -108,16 +111,16 @@ public class Main {
 		client.logout();		
 	}
 	
-	private static void retrXX(CClient client) {
-		retrXX(client, false);
+	private static boolean retrXX(CClient client) {
+		return retrXX(client, false);
 	}
 	
-	private static void retrXX(CClient client, boolean useStream) {
+	private static boolean retrXX(CClient client, boolean useStream) {
 		if (useStream)  {
 			CFileStream stream = client.retrieveFileStream("xx");
 			if (stream == null) {
 				p("C:FileStream transfer failed");
-				return;
+				return false;
 			}
 			
 			int counter = 0;
@@ -130,12 +133,16 @@ public class Main {
 			}
 			
 			p(String.format("C:FileStream contained %d bytes.", counter));			
+			return true;
 		} else {
 			byte[] f = client.retrieveFile("xx");
-			if (f != null)
+			if (f != null) {
 				p("C:File is:\n"+ new String(f));
-			else
+				return true;
+			} else {
 				p("C:File transfer failed.");
+				return false;
+			}
 		}
 	}
 	
@@ -170,6 +177,23 @@ public class Main {
 		} catch (Throwable ex) {
 			ex.printStackTrace();
 			p("Exception found in loop " + i);
+		}
+	}
+	
+	private static void demoTryPassAll(int loops) {
+		int i = 0;
+		try {
+			for (i = 0; i < loops; i++) {
+				boolean suc = tryPassAll();
+				if (suc) {
+					p("OK, proven at iteration " + i);
+					return;
+				}
+			}
+			p("All loops performed " + loops + ". Nothing proven.");
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			p("UNEXPECTED Exception found in loop " + i);
 		}
 	}
 	
@@ -210,6 +234,53 @@ public class Main {
 			p("C:Can not logout.");
 			return;
 		}
+	}
+	
+	/** 
+	 * Try prove that there exist a randomized scenario that is fully executed
+	 * (all commands succeed).
+	 * 
+	 * @return true iff all commands succeed
+	 */
+	private static boolean tryPassAll() {
+		boolean clientDataConfirmationBug = false;
+		if (clientDataConfirmationBug)
+			p("C:Server with random behavior, client might raises exception due to a bug");
+		else
+			p("C:Server with random behavior, client handles that gracefully");
+			
+		CClient client = new CClient(CClient.NET_CODE_RAND);
+		client.setDataTransferConfirmationBug(clientDataConfirmationBug);
+
+		boolean suc = client.connect("ignored", 21);
+		if (!suc) {
+			p("C:Can not connect, end.");
+			return false;
+		}
+		suc = client.login("anonymous", "osgiftp@kiv.zcu.cz");
+		if (!suc) {
+			p("C:Can not log in, end.");
+			return false;
+		}
+		
+		suc = retrXX(client);
+		if (!suc) {
+			return false;
+		}
+		p("C:##Second shot...");
+		suc = retrXX(client);
+		if (!suc) {
+			return false;
+		}
+		
+		suc = client.logout();
+		if (!suc) {
+			p("C:Can not logout.");
+			return false;
+		}
+		
+		p("WHOLE SCENARIO PASSED");
+		return true;
 	}
 	
 	private static void demoPasvRand(boolean clientPasvResponseReadingBug) {
