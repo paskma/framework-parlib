@@ -47,14 +47,16 @@ class Client:
 		if not suc:
 			return False
 
+		# no password needed for some servers
 		if self.machine.getState() == STATE_LOGGED:
 			return True
 
 		## INJECTION
-		# Here is a bug found by simulation.
-		# If the following command fails, the state machine stuck in WAITING_PASSWORD.
-		# The result of machine.user method should be also properly checked.
+		# Here WAS a bug found by simulation.
+		# If the following command fails, the state machine HAD stuck in WAITING_PASSWORD.
 		suc = self.machine.password(password)
+		if not suc:
+			self.machine.clearWaitingPasswordAfterError()
 
 		return suc
 

@@ -122,6 +122,12 @@ class StateMachine(Monitor):
 			return True
 
 		return False
+		
+	@synchronized
+	@precond_state(STATE_WAITING_PASSWORD)
+	@postcond_state(STATE_CONNECTED)
+	def clearWaitingPasswordAfterError(self):
+		self._setState(STATE_CONNECTED)
 
 	@synchronized
 	@precond_state(STATE_LOGGED)
