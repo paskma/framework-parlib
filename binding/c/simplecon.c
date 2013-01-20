@@ -1,5 +1,5 @@
-#import <stdio.h>
-#import <string.h>
+#include <stdio.h>
+#include <string.h>
 
 #define MAX_LINE 1024
 char line_buf[MAX_LINE];
