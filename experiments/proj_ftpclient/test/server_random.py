@@ -116,13 +116,19 @@ class RandServer:
 			elif self.isCmd(cmd, "QUIT"):
 				result = self.commandQuit()
 		except StateException:
-			pass
+			print "SERVER STATE RESET"
+			if (self.state == self.S_STATE_WAITING_DATA_CONNECTION
+				or self.state == self.S_STATE_TRANSFERING):
+				self.setState(self.S_STATE_LOGGED)
+			elif self.state == self.S_STATE_WAITING_PASSWORD:
+				self.setState(self.S_STATE_CONNECTED)
 		
 		if self.config.SERVER_LEVEL == 1:
 			if random(1) == 0:
 				return "500 FAIL\r\n"
 		elif self.config.SERVER_LEVEL == 2:
 			r = random(5)
+			#print "RRRRR ", r
 			if r == 0:
 				pass
 			elif r == 1:
