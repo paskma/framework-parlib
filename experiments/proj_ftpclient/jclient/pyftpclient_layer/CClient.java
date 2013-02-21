@@ -39,7 +39,7 @@ public class CClient implements ICClient {
 	 * Communication with built-in server that fails
 	 * to confirm data transfer.
 	 */
-	public static final int NET_TEST_FAIL = 3;
+	public static final int NET_TEST_CONFIRMATION_FAIL = 3;
 	/**
 	 * Communication with built-in server that respond by
 	 * a random code to every command
@@ -66,10 +66,10 @@ public class CClient implements ICClient {
 	
 	private void init(int networkType) {
 		impl = new Client_81();
-		if (networkType == NET_TEST || networkType == NET_TEST_FAIL) {
+		if (networkType == NET_TEST || networkType == NET_TEST_CONFIRMATION_FAIL) {
 			Server_75 server = new Server_75();
 			__init___76.invoke(server);
-			if (networkType == NET_TEST_FAIL){
+			if (networkType == NET_TEST_CONFIRMATION_FAIL){
 				server.osetExperimentErrorDataTransferConfirmation(true);
 			}
 			

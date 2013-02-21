@@ -100,7 +100,7 @@ public class Main {
 		else
 			p("C:Server fails, client handles that gracefully");
 			
-		CClient client = new CClient(CClient.NET_TEST_FAIL);
+		CClient client = new CClient(CClient.NET_TEST_CONFIRMATION_FAIL);
 		client.setDataTransferConfirmationBug(clientDataConfirmationBug);
 		client.connect("ignored", 21);
 		client.login("anonymous", "osgiftp@kiv.zcu.cz");
