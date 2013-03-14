@@ -1,0 +1,1 @@
+cp application_random_shortscenario_withbug.py application.py
