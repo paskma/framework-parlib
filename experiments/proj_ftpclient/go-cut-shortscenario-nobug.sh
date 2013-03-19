@@ -1,0 +1,1 @@
+cp application_cut_shortscenario_nobug.py application.py

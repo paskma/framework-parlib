@@ -10,7 +10,7 @@ class Application:
 	"""
 	def main(self, argv):
 		try:
-			test_random_shortscenario.main(False)
+			test_random_shortscenario.main(False, False, False)
 		except StateException, ex:
 			#print ex.message
 			raise
